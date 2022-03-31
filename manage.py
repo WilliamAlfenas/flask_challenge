@@ -1,16 +1,16 @@
-from flask_migrate import Migrate
+from flask_migrate import MigrateCommand
+from flasgger import Swagger
+from flask_script import Manager
 
 from apis.app import create_app
-from apis.models.model import db
 
 app = create_app()
-migrate = Migrate(app, db)
+manager = Manager(app)
+swagger = Swagger(app)
 
-@app.shell_context_processor
-def make_shell_context():
-    return dict(app=app, db=db)
 
+manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
-    make_shell_context()[app].run(host="0.0.0.0", port='5000', debug=True)
+    manager.run()
         

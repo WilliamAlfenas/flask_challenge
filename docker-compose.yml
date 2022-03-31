@@ -2,16 +2,17 @@ version: '3.2'
 
 services:
    sensors:
+     network_mode: bridge
      build:
        context: .
      environment:
        PGUSER: postgres
        PGPASSWORD: postgres
        PGDATABASE: vessels_db
-       PGDATABASETEST: vessels_db_test
        PGPORT: 5432
-       # Hostname of our Postgres container
-       PGHOST: db
+       PGHOST: 'postgres_prod'
+       PGPORT_TEST: 5433
+       PGHOST_TEST: 'postgres_dev'
      ports:
        - "5000:5000"
      volumes:
@@ -20,6 +21,10 @@ services:
          target: /app
      depends_on:
        - db
+       - dbt
+     links:
+       - 'db:postgres_prod'
+       - 'dbt:postgres_dev'
    db:
     image: postgres:11
     environment:
@@ -28,7 +33,18 @@ services:
       - POSTGRES_DB=vessels_db
       - PGDATA=/var/lib/postgresql/data/pgdata
     restart: always
-    ports:
-      - "5432:5432"
+    ports: ['5432:5432']
+    network_mode: bridge
     # volumes:
     #    - postgres_data:./data/:/var/lib/postgresql/data/:z
+   dbt:
+    image: postgres:11
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=vessels_db
+    restart: always
+    ports: ['5433:5432']
+    expose:
+      - "5433"
+    network_mode: bridge

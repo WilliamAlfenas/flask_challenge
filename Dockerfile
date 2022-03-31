@@ -3,7 +3,7 @@ FROM tiangolo/uwsgi-nginx-flask:python3.7
 # Setup all python related enviroment
 ENV PYTHONUNBUFFERED 1
 # RUN apt-get -y update
-# RUN apt-get install -y python3 python3-pip python3-dev python-dev postgresql-client libpq-dev python-psycopg2
+#RUN apt-get install -y python3 python3-pip python3-dev python-dev postgresql-client libpq-dev python-psycopg2
 
 # Set the working directory
 # RUN mkdir /app

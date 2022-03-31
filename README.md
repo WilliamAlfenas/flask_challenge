@@ -1,4 +1,5 @@
-# Flask data challenge
+# data challenge
+
 ### Necessary to run the project
 To run this project is necessary to have docker and docker-compose
 
@@ -12,6 +13,19 @@ The docker will create the DB and up the project
 * Command to run: docker-compose up
 
 As all is executed the DB will be created and the project will be running
+
+### How do you recomment to set local enviroment?
+```sh
+pip3 install virtualenv
+virtualenv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+### How do I test this project?
+If your enviroment is set, you can use **pytest -v** alter **docker-compose up**
+
+There are a lot of UTs.
 
 ### Executing the endpoints
 To execute the endpoints is possible to use the documentation of swagger.
